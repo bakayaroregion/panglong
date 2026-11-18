@@ -1,0 +1,3 @@
+/* PANG LONG STORE — Responsive Styles */
+@media (max-width: 1024px) { .product-grid { grid-template-columns: repeat(3, 1fr); } }
+@media (max-width: 768px) { .main-nav { display: none; } .product-grid { grid-template-columns: 1fr 1fr; } }

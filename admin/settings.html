@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Pengaturan — PANG LONG STORE</title>
+  <link rel="stylesheet" href="../css/style.css">
+  <link rel="stylesheet" href="../css/admin.css">
+</head>
+<body>
+  <div id="adminApp" class="admin hidden">
+    <aside class="sidebar">
+      <a href="index.html" class="logo">PANG<em>LONG</em> STORE</a>
+      <nav class="side-nav">
+        <button class="side-link" data-page="dashboard">📊 Dashboard</button>
+        <button class="side-link" data-page="produk">📦 Produk</button>
+        <button class="side-link" data-page="pesanan">🧾 Pesanan</button>
+        <button class="side-link active" data-page="settings">⚙️ Pengaturan</button>
+      </nav>
+      <button id="logoutBtn" class="side-link">🚪 Keluar</button>
+    </aside>
+    <main class="admin-main">
+      <section id="adminSettings" class="admin-page">
+        <div class="admin-head"><h2>Pengaturan Toko</h2></div>
+        <div class="admin-panel" style="max-width: 720px">
+          <form id="settingsForm" class="form">
+            <input id="setStoreName" placeholder="Nama Toko">
+            <input id="setWhatsappNumber" placeholder="Nomor WhatsApp">
+            <input id="setAddress" placeholder="Alamat Toko">
+            <input id="setPhone" placeholder="Telepon">
+            <input id="setEmail" placeholder="Email">
+            <input id="setHours" placeholder="Jam Operasional">
+            <button class="btn" type="submit">Simpan</button>
+          </form>
+        </div>
+      </section>
+    </main>
+  </div>
+  <script src="../js/admin.js"></script>
+</body>
+</html>
