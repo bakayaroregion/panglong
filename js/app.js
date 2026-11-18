@@ -235,7 +235,7 @@ async function initCartPage() {
 }
 
 async function init() {
-  if (document.getElementById('productGrid')) return initHomepage();
+  if (document.getElementById('gridTerlaris')) return initHomepage();
   if (document.getElementById('cartPage')) return initCartPage();
 }
 
