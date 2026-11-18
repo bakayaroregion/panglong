@@ -17,6 +17,7 @@ const FALLBACK_PRODUCTS = [
   { id: 'p1', name: 'Semen Portland 50 KG', slug: 'semen-portland-50kg', description: 'Semen Portland 50 kg untuk konstruksi struktural.', price: 145000, unit: 'sak', stock: 40, status: 'active', is_featured: true, is_new: false, categories: { name: 'Semen & Mortar', slug: 'semen-mortar' } },
 ];
 
+let products = [];
 const fmt = (n) => 'Rp ' + Number(n || 0).toLocaleString('id-ID');
 
 function productImage(p) {
@@ -162,8 +163,8 @@ async function initCartPage() {
   if (!listEl || !emptyEl || !summaryEl || !checkoutBtn) return;
 
   const load = async () => {
-    const data = await api('/api/products');
-    products = data.products || [];
+    const list = await fetchProducts().catch(() => []);
+    products = list;
     renderCart();
   };
 
