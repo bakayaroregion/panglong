@@ -1,8 +1,8 @@
 // PANG LONG STORE — Supabase Client
 import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/supa-js/dist/supa-js.min.js';
 
-const SUPABASE_URL = 'https://YOUR_SUPABASE_PROJECT_REF.supabase.co';
-const SUPABASE_ANON_KEY = 'YOUR_SUPABASE_ANON_KEY';
+const SUPABASE_URL = 'https://gmrheljzcrfwrvitjycb.supabase.co';
+const SUPABASE_ANON_KEY = 'sb_publishable_bzdCMr4QvLc2SZAkkE3JNw_KtA6sRPL';
 
 export const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY, {
   auth: { persistSession: true, autoRefreshToken: true },
