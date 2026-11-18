@@ -111,7 +111,7 @@ async function initCatalog() {
     const detailBtn = e.target.closest('[data-detail]');
     if (detailBtn) { window.location.href = 'pages/product-detail.html?id=' + detailBtn.dataset.detail; return; }
     if (!addBtn) return;
-    const p = currentProducts.find((x) => x.id === Number(addBtn.dataset.add));
+    const p = currentProducts.find((x) => String(x.id) === String(addBtn.dataset.add));
     if (p) {
       addToCart(p.id, 1);
       const el = document.getElementById('cartCount');

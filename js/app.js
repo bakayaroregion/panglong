@@ -117,9 +117,12 @@ async function initHomepage() {
     });
   }
 
-  document.querySelectorAll('[data-add]').forEach((btn) => {
-    btn.addEventListener('click', async () => {
-      const id = btn.dataset.add;
+  // Event delegation: mendukung tombol Add to Cart / Detail pada kartu yang di-render dinamis
+  document.addEventListener('click', async (e) => {
+    const addBtn = e.target.closest('[data-add]');
+    const detailBtn = e.target.closest('[data-detail]');
+    if (addBtn) {
+      const id = addBtn.dataset.add;
       const products = await fetchProducts().catch(() => FALLBACK_PRODUCTS);
       const p = products.find((x) => String(x.id) === String(id));
       if (!p) return;
@@ -130,16 +133,14 @@ async function initHomepage() {
       toast.textContent = 'Ditambahkan ke keranjang ✓';
       document.body.appendChild(toast);
       setTimeout(() => toast.remove(), 1800);
-    });
-  });
-
-  document.querySelectorAll('[data-detail]').forEach((btn) => {
-    btn.addEventListener('click', async () => {
-      const id = btn.dataset.detail;
+      return;
+    }
+    if (detailBtn) {
+      const id = detailBtn.dataset.detail;
       const products = await fetchProducts().catch(() => FALLBACK_PRODUCTS);
       const p = products.find((x) => String(x.id) === String(id));
       if (p) window.location.href = 'pages/product-detail.html?id=' + p.id;
-    });
+    }
   });
 
   if (gridKategori) await renderCategories();
@@ -235,7 +236,7 @@ async function initCartPage() {
 }
 
 async function init() {
-  if (document.getElementById('gridTerlaris')) return initHomepage();
+  if (document.getElementById('grid-terlaris')) return initHomepage();
   if (document.getElementById('cartPage')) return initCartPage();
 }
 

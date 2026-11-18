@@ -5,7 +5,7 @@ const SUPABASE_SERVICE_ROLE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3Mi
 
 const STORE = {
   name: 'PANG LONG STORE',
-  whatsappNumber: '6280000000000',
+  whatsappNumber: '6282117728722',
   address: 'Jl. Konstruksi No. 123, Indonesia',
   phone: '0210000000',
   email: 'hello@panglong.store',
