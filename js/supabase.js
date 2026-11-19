@@ -1,5 +1,5 @@
 // PANG LONG STORE — Supabase Client
-import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/supa-js/dist/supa-js.min.js';
+import { createClient } from 'https://esm.sh/@supabase/supabase-js@2';
 
 const SUPABASE_URL = 'https://gmrheljzcrfwrvitjycb.supabase.co';
 const SUPABASE_ANON_KEY = 'sb_publishable_bzdCMr4QvLc2SZAkkE3JNw_KtA6sRPL';

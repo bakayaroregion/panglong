@@ -20,38 +20,76 @@
   </div>
 </div>
 
-<div id="adminApp" class="admin hidden">
-  <aside class="sidebar">
-    <a class="logo" href="../index.html">PANG<em>LONG</em> STORE</a>
+<div id="adminApp" class="admin-shell hidden">
+  <aside class="admin-sidebar">
+    <a href="../index.html" class="logo">PANG<em>LONG</em> STORE</a>
     <nav class="side-nav">
       <button class="side-link active" data-page="dashboard">📊 Dashboard</button>
       <button class="side-link" data-page="produk">📦 Produk</button>
       <button class="side-link" data-page="pesanan">🧾 Pesanan</button>
+      <button class="side-link" data-page="kategori">🗂️ Kategori</button>
+      <button class="side-link" data-page="banner">📢 Banner</button>
+      <button class="side-link" data-page="promo">🎁 Promo</button>
+      <button class="side-link" data-page="pelanggan">👥 Pelanggan</button>
+      <button class="side-link" data-page="cms">📝 CMS</button>
+      <button class="side-link" data-page="reports">📊 Laporan</button>
     </nav>
     <button id="logoutBtn" class="side-link">🚪 Keluar</button>
   </aside>
   <main class="admin-main">
+    <header class="admin-topbar">
+      <div class="admin-topbar-left">
+        <h1 id="adminPageTitle">Dashboard</h1>
+        <p class="admin-topbar-sub">Selamat datang di panel admin PANG LONG STORE</p>
+      </div>
+      <div class="admin-topbar-right">
+        <span class="admin-topbar-date" id="adminDate"></span>
+        <div class="admin-user">
+          <span class="admin-user-avatar">🧑‍💼</span>
+          <span class="admin-user-meta"><strong>Admin</strong><small>Administrator</small></span>
+        </div>
+      </div>
+    </header>
+
     <section id="adminDashboard" class="admin-page">
-      <h2>Dashboard</h2>
+      <div class="admin-head">
+        <h2>Dashboard</h2>
+      </div>
       <div class="stat-grid">
-        <div class="stat-card"><span class="stat-num" id="statProducts">0</span><span class="stat-label">Produk</span></div>
-        <div class="stat-card"><span class="stat-num" id="statCategories">0</span><span class="stat-label">Kategori</span></div>
-        <div class="stat-card"><span class="stat-num" id="statOrders">0</span><span class="stat-label">Pesanan</span></div>
-        <div class="stat-card"><span class="stat-num" id="statRevenue">Rp 0</span><span class="stat-label">Omzet</span></div>
+        <div class="stat-card"><span class="stat-num" id="statRevenue">Rp 0</span><span class="stat-label">Total Omzet</span></div>
+        <div class="stat-card"><span class="stat-num" id="statOrders">0</span><span class="stat-label">Total Pesanan</span></div>
+        <div class="stat-card"><span class="stat-num" id="statPending">0</span><span class="stat-label">Menunggu Konfirmasi</span></div>
+        <div class="stat-card"><span class="stat-num" id="statProcessing">0</span><span class="stat-label">Sedang Diproses</span></div>
+        <div class="stat-card"><span class="stat-num" id="statCompleted">0</span><span class="stat-label">Selesai</span></div>
+        <div class="stat-card"><span class="stat-num" id="statProducts">0</span><span class="stat-label">Total Produk</span></div>
+        <div class="stat-card"><span class="stat-num" id="statActive">0</span><span class="stat-label">Produk Aktif</span></div>
+        <div class="stat-card"><span class="stat-num" id="statOut">0</span><span class="stat-label">Produk Habis</span></div>
+        <div class="stat-card"><span class="stat-num" id="statLowStock">0</span><span class="stat-label">Stok Menipis</span></div>
+        <div class="stat-card"><span class="stat-num" id="statCustomers">0</span><span class="stat-label">Total Pelanggan</span></div>
       </div>
       <div class="admin-cols">
+        <div class="admin-panel">
+          <h3>Penjualan 7 Hari</h3>
+          <div id="salesChart"></div>
+        </div>
         <div class="admin-panel">
           <h3>Stok Menipis</h3>
           <div id="lowStockList"></div>
         </div>
+      </div>
+      <div class="admin-cols">
         <div class="admin-panel">
           <h3>Pesanan Terbaru</h3>
           <div id="recentOrders"></div>
         </div>
+        <div class="admin-panel">
+          <h3>Produk Terlaris</h3>
+          <div id="topProductsList"></div>
+        </div>
       </div>
       <div class="admin-panel">
-        <h3>Grafik Penjualan (7 Hari)</h3>
-        <div id="salesChart"></div>
+        <h3>Aktivitas Terbaru</h3>
+        <div id="activityList"></div>
       </div>
     </section>
 
@@ -62,14 +100,16 @@
       </div>
       <div class="table-wrap">
         <table class="table">
-          <thead><tr><th>Produk</th><th>Harga</th><th>Stock</th><th>Aksi</th></tr></thead>
+          <thead><tr><th>Produk</th><th>Harga</th><th>Stock</th><th>Unit</th><th>Status</th><th>Aksi</th></tr></thead>
           <tbody id="productsTableBody"></tbody>
         </table>
       </div>
     </section>
 
     <section id="adminOrders" class="admin-page hidden">
-      <h2>Kelola Pesanan</h2>
+      <div class="admin-head">
+        <h2>Kelola Pesanan</h2>
+      </div>
       <div class="table-wrap">
         <table class="table">
           <thead><tr><th>Order</th><th>Tanggal</th><th>Customer</th><th>Total</th><th>Items</th><th>Status</th><th>Payment</th><th>Shipping</th></tr></thead>
@@ -77,7 +117,112 @@
         </table>
       </div>
     </section>
+
+    <section id="adminCustomers" class="admin-page hidden">
+      <div class="admin-head"><h2>Manajemen Pelanggan</h2></div>
+      <div class="admin-panel"><div id="customersList"></div></div>
+    <section id="adminCustomers" class="admin-page hidden">
+      <div class="admin-head"><h2>Manajemen Pelanggan</h2></div>
+      <div class="admin-panel"><div id="customersList"></div></div>
+    </section>
+
+    <section id="adminCms" class="admin-page hidden">
+      <div class="admin-head"><h2>Kelola Konten Website</h2></div>
+
+      <div class="admin-cols">
+        <div class="admin-panel">
+          <h3>Pengumuman</h3>
+          <form id="cmsAnnouncementForm" class="form">
+            <input id="cmsAnnouncement" placeholder="Teks pengumuman (cth: Free ongkir untuk area Jakarta)">
+            <button class="btn" type="submit">Simpan</button>
+          </form>
+        </div>
+        <div class="admin-panel">
+          <h3>FAQ</h3>
+          <form id="cmsFaqForm" class="form">
+            <input id="faqQuestion" placeholder="Pertanyaan">
+            <textarea id="faqAnswer" rows="2" placeholder="Jawaban"></textarea>
+            <input id="faqCategory" placeholder="Kategori FAQ">
+            <button class="btn" type="submit">Tambah FAQ</button>
+          </form>
+          <div id="faqsList" style="margin-top:12px"></div>
+        </div>
+      </div>
+
+      <div class="admin-cols">
+        <div class="admin-panel">
+          <h3>Testimoni</h3>
+          <form id="cmsTstForm" class="form">
+            <input id="tstName" placeholder="Nama Pelanggan">
+            <textarea id="tstContent" rows="2" placeholder="Isi testimoni"></textarea>
+            <input id="tstRating" type="number" min="1" max="5" value="5" placeholder="Rating">
+            <button class="btn" type="submit">Tambah Testimoni</button>
+          </form>
+          <div id="testimonialsList" style="margin-top:12px"></div>
+        </div>
+        <div class="admin-panel">
+          <h3>Halaman Statis</h3>
+          <form id="cmsPageForm" class="form">
+            <input id="cmsPageKey" placeholder="Key halaman (tentang/contact/privacy/terms)">
+            <input id="cmsPageTitle" placeholder="Judul">
+            <textarea id="cmsPageContent" rows="3" placeholder="Isi halaman"></textarea>
+            <label style="display:flex;gap:8px;align-items:center;font-size:14px">
+              <input id="cmsPagePublished" type="checkbox" checked /> Terpublikasi
+            </label>
+            <button class="btn" type="submit">Simpan Halaman</button>
+          </form>
+          <div id="pagesList" style="margin-top:12px"></div>
+        </div>
+      </div>
+    </section>
+
+    <section id="adminReports" class="admin-page hidden">
+      <div class="admin-head"><h2>Laporan Keuangan</h2></div>
+      <div class="stat-grid">
+        <div class="stat-card"><span class="stat-num" id="rptRevenue">Rp 0</span><span class="stat-label">Omzet (Valid)</span></div>
+        <div class="stat-card"><span class="stat-num" id="rptReceived">Rp 0</span><span class="stat-label">Penerimaan</span></div>
+        <div class="stat-card"><span class="stat-num" id="rptGross">Rp 0</span><span class="stat-label">Laba Kotor</span></div>
+        <div class="stat-card"><span class="stat-num" id="rptExpense">Rp 0</span><span class="stat-label">Pengeluaran</span></div>
+        <div class="stat-card"><span class="stat-num" id="rptNet">Rp 0</span><span class="stat-label">Laba Bersih</span></div>
+      </div>
+      <div class="admin-panel">
+        <h3>Laporan Penjualan</h3>
+        <button class="btn" id="rptExportCsv">📥 Export CSV</button>
+        <div id="rptOrdersList" style="margin-top:14px"></div>
+      </div>
+    </section>
   </main>
+</div>
+
+<!-- Modal Detail Pesanan -->
+<div id="orderModalBox" class="modal-overlay hidden">
+  <div class="modal">
+    <button class="modal-close" id="orderModalClose">×</button>
+    <h3 id="orderModalTitle">Detail Pesanan</h3>
+    <div id="orderDetail"></div>
+    <div class="form-row">
+      <select id="orderStatus">
+        <option value="pending">Pending</option>
+        <option value="awaiting_payment">Awaiting Payment</option>
+        <option value="payment_verified">Payment Verified</option>
+        <option value="processing">Processing</option>
+        <option value="ready_to_ship">Ready to Ship</option>
+        <option value="shipped">Shipped</option>
+        <option value="delivered">Delivered</option>
+        <option value="cancelled">Cancelled</option>
+      </select>
+      <div>
+        <label>Catatan Internal</label>
+        <textarea id="orderNotes" rows="3"></textarea>
+      </div>
+    </div>
+    <div style="display:flex;gap:10px;margin-top:16px;flex-wrap:wrap">
+      <button class="btn" id="orderSaveStatus">Simpan Status</button>
+      <button class="btn btn-outline" id="orderSaveNotes">Simpan Catatan</button>
+      <button class="btn btn-accent" id="orderWhatsApp">💬 Buka WhatsApp</button>
+      <button class="btn btn-dark" id="orderPrint">🖨 Cetak Invoice</button>
+    </div>
+  </div>
 </div>
 
 <!-- Modal Produk (Create/Edit) -->
@@ -86,11 +231,25 @@
     <button class="modal-close" id="productModalBoxClose">×</button>
     <h3 id="productModalTitle">Tambah Produk</h3>
     <form id="productForm" class="form">
+      <input type="hidden" id="pfId">
       <input id="pfName" required placeholder="Nama Produk">
       <div class="form-row">
-        <input id="pfPrice" required type="number" min="0" placeholder="Harga (Rp)">
+        <input id="pfPrice" required type="number" min="0" placeholder="Harga Jual (Rp)">
         <input id="pfStock" required type="number" min="0" placeholder="Stock">
       </div>
+      <div class="form-row">
+        <input id="pfCostPrice" type="number" min="0" step="0.01" placeholder="Harga Modal (Rp)">
+        <input id="pfWholesalePrice" type="number" min="0" step="0.01" placeholder="Harga Grosir (Rp)">
+      </div>
+      <div class="form-row">
+        <input id="pfDiscountPercent" type="number" min="0" max="100" placeholder="Diskon (%)">
+        <input id="pfBarcode" placeholder="Barcode">
+      </div>
+      <div class="form-row">
+        <input id="pfSku" placeholder="SKU">
+        <input id="pfWeight" type="number" min="0" step="0.01" placeholder="Berat (kg)">
+      </div>
+      <input id="pfDimensions" placeholder="Dimensi (cth: 20x20x20)">
       <div class="form-row">
         <select id="pfCategory"><option value="">Pilih Kategori</option></select>
         <select id="pfUnit">
@@ -119,6 +278,6 @@
   </div>
 </div>
 
-<script src="../js/admin.js"></script>
+<script type="module" src="../js/admin.js"></script>
 </body>
 </html>

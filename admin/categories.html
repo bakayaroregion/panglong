@@ -8,8 +8,8 @@
   <link rel="stylesheet" href="../css/admin.css">
 </head>
 <body>
-  <div id="adminApp" class="admin hidden">
-    <aside class="sidebar">
+  <div id="adminApp" class="admin-shell hidden">
+    <aside class="admin-sidebar">
       <a href="index.html" class="logo">PANG<em>LONG</em> STORE</a>
       <nav class="side-nav">
         <button class="side-link" data-page="dashboard">📊 Dashboard</button>
@@ -28,12 +28,19 @@
           <form id="categoryForm" class="form">
             <input id="catName" required placeholder="Nama Kategori">
             <input id="catSlug" required placeholder="Slug (cth: semen-mortar)">
+            <div class="form-row">
+              <input id="catOrder" type="number" min="0" placeholder="Urutan Tampil">
+              <input id="catIcon" placeholder="Ikon (cth: 🧱)">
+            </div>
+            <label style="display:flex;gap:8px;align-items:center;font-size:14px">
+              <input id="catActive" type="checkbox" checked /> Aktif
+            </label>
             <button class="btn" type="submit">Simpan</button>
           </form>
         </div>
       </section>
     </main>
   </div>
-  <script src="../js/admin.js"></script>
+  <script type="module" src="../js/admin.js"></script>
 </body>
 </html>

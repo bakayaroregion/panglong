@@ -8,8 +8,8 @@
   <link rel="stylesheet" href="../css/admin.css">
 </head>
 <body>
-  <div id="adminApp" class="admin hidden">
-    <aside class="sidebar">
+  <div id="adminApp" class="admin-shell hidden">
+    <aside class="admin-sidebar">
       <a href="index.html" class="logo">PANG<em>LONG</em> STORE</a>
       <nav class="side-nav">
         <button class="side-link" data-page="dashboard">📊 Dashboard</button>
@@ -23,9 +23,33 @@
       <section id="adminPromotions" class="admin-page">
         <div class="admin-head"><h2>Manajemen Promo</h2></div>
         <div class="admin-panel"><div id="adminPromotionsList"></div></div>
+        <div class="admin-panel" style="margin-top:20px">
+          <h3>Tambah Promo</h3>
+          <form id="promoForm" class="form">
+            <input id="promoTitle" placeholder="Judul Promo" required>
+            <textarea id="promoDesc" rows="2" placeholder="Deskripsi"></textarea>
+            <div class="form-row">
+              <select id="promoType"><option value="percent">Diskon Persen</option><option value="nominal">Diskon Nominal</option></select>
+              <input id="promoValue" type="number" min="0" placeholder="Nilai Diskon (Rp atau %)" required>
+            </div>
+            <div class="form-row">
+              <input id="promoMaxDiscount" type="number" min="0" placeholder="Max Diskon (Rp)">
+              <input id="promoMinPurchase" type="number" min="0" placeholder="Min Pembelian (Rp)">
+            </div>
+            <div class="form-row">
+              <input id="promoStart" type="date">
+              <input id="promoEnd" type="date">
+            </div>
+            <div class="form-row">
+              <select id="promoAppliesTo"><option value="all">Semua Produk</option><option value="product">Produk Tertentu</option><option value="category">Kategori Tertentu</option></select>
+              <select id="promoProduct"><option value="">Pilih Produk</option></select>
+            </div>
+            <button class="btn" type="submit">Simpan Promo</button>
+          </form>
+        </div>
       </section>
     </main>
   </div>
-  <script src="../js/admin.js"></script>
+  <script type="module" src="../js/admin.js"></script>
 </body>
 </html>

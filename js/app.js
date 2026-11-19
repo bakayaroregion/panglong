@@ -66,7 +66,7 @@ async function api(url, options = {}) {
   });
 }
 
-function updateBadge() { const el = document.getElementById('cartCount'); if (el) el.textContent = getCartCount(); }
+function updateCartBadge() { const el = document.getElementById('cartCount'); if (el) el.textContent = getCartCount(); }
 
 async function renderCategories() {
   const grid = document.querySelector('.category-grid');
@@ -161,6 +161,7 @@ async function initCartPage() {
   const emptyEl = document.getElementById('cartEmpty');
   const summaryEl = document.getElementById('cartSummary');
   const checkoutBtn = document.getElementById('cartCheckout');
+  const cancelBtn = document.getElementById('cartCancel');
   if (!listEl || !emptyEl || !summaryEl || !checkoutBtn) return;
 
   const load = async () => {
@@ -231,6 +232,8 @@ async function initCartPage() {
     clearCart();
     await load();
   });
+
+  if (cancelBtn) cancelBtn.addEventListener('click', async () => { clearCart(); updateCartBadge(); await load(); });
 
   await load();
 }

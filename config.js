@@ -1,9 +1,9 @@
 // PANG LONG STORE — Konfigurasi
-const SUPABASE_URL = 'https://gmrheljzcrfwrvitjycb.supabase.co';
-const SUPABASE_ANON_KEY = 'sb_publishable_bzdCMr4QvLc2SZAkkE3JNw_KtA6sRPL';
-const SUPABASE_SERVICE_ROLE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImdtcmhlbGp6Y3Jmd3J2aXRqeWNiIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc5NDkwOTU5NSwiZXhwIjoyMTEwNDg1NTk1fQ.wUdRKUQj4OSXRIUyLBDfx5LyMTvDNhZTZMr0BDIhAwA'; // JANGAN dipakai di frontend
+export const SUPABASE_URL = 'https://gmrheljzcrfwrvitjycb.supabase.co';
+export const SUPABASE_ANON_KEY = 'sb_publishable_bzdCMr4QvLc2SZAkkE3JNw_KtA6sRPL';
+export const SUPABASE_SERVICE_ROLE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImdtcmhlbGp6Y3Jmd3J2aXRqeWNiIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc5NDkwOTU5NSwiZXhwIjoyMTEwNDg1NTk1fQ.wUdRKUQj4OSXRIUyLBDfx5LyMTvDNhZTZMr0BDIhAwA'; // JANGAN dipakai di frontend
 
-const STORE = {
+export const STORE = {
   name: 'PANG LONG STORE',
   whatsappNumber: '6282117728722',
   address: 'Jl. Konstruksi No. 123, Indonesia',
@@ -12,7 +12,7 @@ const STORE = {
   hours: 'Senin - Sabtu, 08:00 - 17:00 WIB',
 };
 
-const CATEGORIES = [
+export const CATEGORIES = [
   { id: 'semen-mortar', name: 'Semen & Mortar' },
   { id: 'pasir-batu', name: 'Pasir & Batu' },
   { id: 'besi-baja', name: 'Besi & Baja' },
@@ -29,7 +29,7 @@ const CATEGORIES = [
   { id: 'perlengkapan-kamar-mandi', name: 'Perlengkapan Kamar Mandi' },
 ];
 
-const PRODUCT_PLACEHOLDERS = [
+export const PRODUCT_PLACEHOLDERS = [
   { name: 'Semen Portland 50 KG', price: 145000, unit: 'sak', category: 'Semen & Mortar', stock: 40, badge: 'Terlaris', image: 'assets/images/semen-portland.jpg' },
   { name: 'Besi Beton 10 MM', price: 520000, unit: 'lembar', category: 'Besi & Baja', stock: 25, badge: 'Terlaris', image: 'assets/images/besi-beton.jpg' },
   { name: 'Pasir Bangunan 1 Kubik', price: 350000, unit: 'm3', category: 'Pasir & Batu', stock: 15, badge: null, image: 'assets/images/pasir-bangunan.jpg' },

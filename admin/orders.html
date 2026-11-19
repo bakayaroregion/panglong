@@ -8,19 +8,51 @@
   <link rel="stylesheet" href="../css/admin.css">
 </head>
 <body>
-  <div class="admin-shell">
-    <aside class="admin-sidebar">
-      <a href="index.html" class="logo" style="color:#fff">PANG<em>LONG</em> STORE</a>
-      <nav class="main-nav">
-        <a href="index.html">Dashboard</a>
-        <a href="products.html">Produk</a>
-        <a href="orders.html" class="active">Pesanan</a>
-        <a href="categories.html">Kategori</a>
-        <a href="settings.html">Pengaturan</a>
-      </nav>
-    </aside>
-    <main class="admin-main"><h1>Kelola Pesanan</h1><div id="adminOrders"></div></main>
+  <div id="adminLogin" class="admin-login">
+    <div class="admin-login-card">
+      <h2>Admin PANG LONG STORE</h2>
+      <form id="loginForm" class="form">
+        <input id="loginEmail" required placeholder="Email Admin">
+        <input id="loginPassword" required type="password" placeholder="Password">
+        <button class="btn btn-block" type="submit">Masuk</button>
+      </form>
+      <p class="login-hint">Email: admin@panglong.store</p>
+    </div>
   </div>
-  <script src="../js/admin.js"></script>
+
+  <div id="adminApp" class="admin-shell hidden">
+    <aside class="admin-sidebar">
+      <a href="index.html" class="logo">PANG<em>LONG</em> STORE</a>
+      <nav class="side-nav">
+        <button class="side-link" data-page="dashboard">📊 Dashboard</button>
+        <button class="side-link" data-page="produk">📦 Produk</button>
+        <button class="side-link active" data-page="pesanan">🧾 Pesanan</button>
+      </nav>
+      <button id="logoutBtn" class="side-link">🚪 Keluar</button>
+    </aside>
+    <main class="admin-main">
+      <section id="adminOrders" class="admin-page">
+        <div class="admin-head">
+          <h2>Kelola Pesanan</h2>
+          <div class="admin-head-actions">
+            <input id="orderSearch" type="text" placeholder="Cari order / customer..." />
+            <select id="orderStatusFilter"><option value="">Semua Status</option><option value="pending">Pending</option><option value="awaiting_payment">Awaiting Payment</option><option value="payment_verified">Payment Verified</option><option value="processing">Processing</option><option value="ready_to_ship">Ready to Ship</option><option value="shipped">Shipped</option><option value="delivered">Delivered</option><option value="cancelled">Cancelled</option></select>
+          </div>
+        </div>
+        <div class="table-wrap">
+          <table class="table">
+            <thead>
+              <tr>
+                <th>Order</th><th>Tanggal</th><th>Customer</th><th>Total</th><th>Items</th><th>Status</th><th>Payment</th><th>Shipping</th>
+              </tr>
+            </thead>
+            <tbody id="ordersTableBody"></tbody>
+          </table>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <script type="module" src="../js/admin.js"></script>
 </body>
 </html>

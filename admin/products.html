@@ -8,8 +8,8 @@
   <link rel="stylesheet" href="../css/admin.css">
 </head>
 <body>
-  <div id="adminApp" class="admin hidden">
-    <aside class="sidebar">
+  <div id="adminApp" class="admin-shell hidden">
+    <aside class="admin-sidebar">
       <a href="index.html" class="logo">PANG<em>LONG</em> STORE</a>
       <nav class="side-nav">
         <button class="side-link" data-page="dashboard">📊 Dashboard</button>
@@ -22,11 +22,22 @@
       <section id="adminProducts" class="admin-page">
         <div class="admin-head">
           <h2>Manajemen Produk</h2>
-          <button class="btn" id="openProductModal">+ Tambah Produk</button>
+          <div class="admin-head-actions">
+            <input id="pfSearch" type="text" placeholder="Cari nama / SKU..." />
+            <select id="pfCategoryFilter"><option value="">Semua Kategori</option></select>
+            <select id="pfStatusFilter"><option value="">Semua Status</option><option value="active">Active</option><option value="inactive">Inactive</option></select>
+            <select id="pfSort"><option value="">Sort: Terbaru</option><option value="price_asc">Harga: Termurah</option><option value="price_desc">Harga: Termahal</option><option value="stock_asc">Stok: Terkecil</option><option value="stock_desc">Stok: Terbesar</option><option value="name">Nama: A-Z</option></select>
+            <button class="btn" id="openProductModal">+ Tambah Produk</button>
+          </div>
+        </div>
+        <div id="productsPager" style="display:flex;gap:10px;align-items:center;justify-content:flex-end;margin-bottom:14px;">
+          <button class="btn btn-sm" id="productsPagerPrev">← Prev</button>
+          <span style="font-size:13px;color:var(--muted)" id="productsPagerInfo">Page 1</span>
+          <button class="btn btn-sm" id="productsPagerNext">Next →</button>
         </div>
         <div class="table-wrap">
           <table class="table">
-            <thead><tr><th>Produk</th><th>Harga</th><th>Stock</th><th>Aksi</th></tr></thead>
+            <thead><tr><th>Produk</th><th>Harga</th><th>Stock</th><th>Unit</th><th>Status</th><th>Aksi</th></tr></thead>
             <tbody id="productsTableBody"></tbody>
           </table>
         </div>
@@ -39,11 +50,25 @@
       <button class="modal-close" id="productModalBoxClose">×</button>
       <h3 id="productModalTitle">Tambah Produk</h3>
       <form id="productForm" class="form">
+        <input type="hidden" id="pfId">
         <input id="pfName" required placeholder="Nama Produk">
         <div class="form-row">
-          <input id="pfPrice" required type="number" min="0" placeholder="Harga (Rp)">
+          <input id="pfPrice" required type="number" min="0" placeholder="Harga Jual (Rp)">
           <input id="pfStock" required type="number" min="0" placeholder="Stock">
         </div>
+        <div class="form-row">
+          <input id="pfCostPrice" type="number" min="0" step="0.01" placeholder="Harga Modal (Rp)">
+          <input id="pfWholesalePrice" type="number" min="0" step="0.01" placeholder="Harga Grosir (Rp)">
+        </div>
+        <div class="form-row">
+          <input id="pfDiscountPercent" type="number" min="0" max="100" placeholder="Diskon (%)">
+          <input id="pfBarcode" placeholder="Barcode">
+        </div>
+        <div class="form-row">
+          <input id="pfSku" placeholder="SKU">
+          <input id="pfWeight" type="number" min="0" step="0.01" placeholder="Berat (kg)">
+        </div>
+        <input id="pfDimensions" placeholder="Dimensi (cth: 20x20x20)">
         <div class="form-row">
           <select id="pfCategory"><option value="">Pilih Kategori</option></select>
           <select id="pfUnit">
@@ -72,6 +97,6 @@
     </div>
   </div>
 
-  <script src="../js/admin.js"></script>
+  <script type="module" src="../js/admin.js"></script>
 </body>
 </html>
