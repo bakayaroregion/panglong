@@ -99,16 +99,16 @@ panglong-store/
 ## 5. Phase Plan (sesuai Master Prompt)
 
 - **Tahap 1** — Blueprint sistem & struktur folder: ✅ INI (dokumen ini).
-- **Tahap 2** — Database SQL, autentikasi, RLS, permission.
-- **Tahap 3** — Layout dashboard, sidebar, topbar, overview.
-- **Tahap 4** — Manajemen produk, kategori, inventory.
-- **Tahap 5** — Manajemen pesanan, pelanggan.
-- **Tahap 6** — CMS website & banner.
-- **Tahap 7** — Promo, pengiriman, pembayaran.
-- **Tahap 8** — Laporan & keuangan.
-- **Tahap 9** — Admin user & pengaturan toko.
-- **Tahap 10** — Integrasi admin ↔ website pelanggan.
-- **Tahap 11** — Uji keamanan, fungsionalitas, responsivitas, performa.
+- **Tahap 2** — Database SQL, autentikasi, RLS, permission. ✅ Selesai.
+- **Tahap 3** — Layout dashboard, sidebar, topbar, overview. ✅ Selesai.
+- **Tahap 4** — Manajemen produk, kategori, inventory. ✅ Selesai.
+- **Tahap 5** — Manajemen pesanan, pelanggan. ✅ Selesai.
+- **Tahap 6** — CMS website & banner. ✅ Selesai.
+- **Tahap 7** — Promo, pengiriman, pembayaran. 🟡 Promo selesai; shipping/payment pending.
+- **Tahap 8** — Laporan & keuangan. ✅ Basic selesai.
+- **Tahap 9** — Admin user & pengaturan toko. ✅ Selesai.
+- **Tahap 10** — Integrasi admin ↔ website pelanggan. ✅ Selesai (CMS, hero, testimoni, FAQ live dari DB).
+- **Tahap 11** — Uji keamanan, fungsionalitas, responsivitas, performa. 🟡 Sedang (checklist dibuat: `ADMIN_QA_CHECKLIST.md`).
 
 ## 6. Security Blueprint
 

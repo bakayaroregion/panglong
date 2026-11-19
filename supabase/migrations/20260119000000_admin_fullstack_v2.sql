@@ -436,7 +436,8 @@ create policy "Customer manage own cart" on public.carts for all
 create policy "Customer manage own orders" on public.orders for all
   using (customer_id = auth.uid());
 
--- ADD COLUMN: announcement to store_settings (CMS)\nalter table public.store_settings add column if not exists announcement text;
+-- ADD COLUMN: announcement to store_settings (CMS)
+alter table public.store_settings add column if not exists announcement text;
 
 alter table public.promotions add column if not exists discount_type text not null default 'percent';
 alter table public.promotions add column if not exists discount_value numeric not null default 0;

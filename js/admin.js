@@ -374,13 +374,13 @@ async function loadOrdersAdmin() {
 }
 
 async function switchPage(page) {
-  const map = { dashboard: 'adminDashboard', produk: 'adminProducts', pesanan: 'adminOrders', kategori: 'adminCategories', banner: 'adminBanners', promo: 'adminPromotions', pelanggan: 'adminCustomers', cms: 'adminCms', reports: 'adminReports', settings: 'adminSettings' };
+  const map = { dashboard: 'adminDashboard', produk: 'adminProducts', pesanan: 'adminOrders', kategori: 'adminCategories', banner: 'adminBanners', promo: 'adminPromotions', pelanggan: 'adminCustomers', cms: 'adminCms', reports: 'adminReports', users: 'adminUsers', settings: 'adminSettings' };
   const target = document.getElementById(map[page]);
   if (!target) return;
   document.querySelectorAll('.admin-page').forEach((s) => s.classList.add('hidden'));
   document.querySelectorAll('.side-link').forEach((b) => b.classList.toggle('active', b.dataset.page === page));
   target.classList.remove('hidden');
-  const titles = { dashboard: 'Dashboard', produk: 'Manajemen Produk', pesanan: 'Kelola Pesanan', kategori: 'Manajemen Kategori', banner: 'Manajemen Banner', promo: 'Manajemen Promo', pelanggan: 'Manajemen Pelanggan', cms: 'Kelola Konten Website', reports: 'Laporan Keuangan', settings: 'Pengaturan Toko' };
+  const titles = { dashboard: 'Dashboard', produk: 'Manajemen Produk', pesanan: 'Kelola Pesanan', kategori: 'Manajemen Kategori', banner: 'Manajemen Banner', promo: 'Manajemen Promo', pelanggan: 'Manajemen Pelanggan', cms: 'Kelola Konten Website', reports: 'Laporan Keuangan', users: 'Manajemen Admin', settings: 'Pengaturan Toko' };
   const titleEl = document.getElementById('adminPageTitle');
   if (titleEl) titleEl.textContent = titles[page] || 'Dashboard';
   if (map[page] === 'adminDashboard') await loadDashboard();
@@ -392,6 +392,7 @@ async function switchPage(page) {
   else if (map[page] === 'adminCustomers') await loadCustomersAdmin();
   else if (map[page] === 'adminCms') await loadCmsAdmin();
   else if (map[page] === 'adminReports') await loadReportsAdmin();
+  else if (map[page] === 'adminUsers') await loadAdminUsersAdmin();
   else if (map[page] === 'adminSettings') await loadSettingsAdmin();
 }
 
@@ -483,6 +484,37 @@ async function loadCmsAdmin() {
   if (el) el.innerHTML = (pages || []).map((p) => `<div class="low-item">📄 <strong>${p.title}</strong> — <small>${p.key}</small></div>`).join('');
 }
 
+async function loadAdminUsersAdmin() {
+  const { data } = await supabase.from('admin_roles').select('id, admin_id, role, is_active, profiles(email, full_name)').eq('is_active', true);
+  const el = document.getElementById('adminUsersList');
+  if (!el) return;
+  el.innerHTML = (data || []).map((r) => `
+    <div class="low-item" style="display:flex;justify-content:space-between;align-items:center;gap:10px">
+      <span>👑 <strong>${r.profiles?.email || r.admin_id}</strong> — <small>${r.role}</small></span>
+      <span style="display:flex;gap:6px;flex-shrink:0">
+        <button class="btn btn-sm" data-au-toggle="${r.id}" data-au-status="${r.is_active === false ? 'inactive' : 'active'}">${r.is_active === false ? 'Aktifkan' : 'Nonaktifkan'}</button>
+        <button class="btn btn-sm btn-danger" data-au-del="${r.id}">Hapus</button>
+      </span>
+    </div>`).join('');
+  const auSel = document.getElementById('auAdminId');
+  if (auSel) { auSel.innerHTML = '<option value="">Pilih Admin</option>' + (await supabase.from('profiles').select('id, email, role').eq('role', 'admin')).data.map((p) => `<option value="${p.id}">${p.email}</option>`).join(''); }
+  await loadAuditLogs();
+}
+
+async function loadPermsAdmin() {
+  const { data } = await supabase.from('role_permissions').select('*').order('created_at', { ascending: false });
+  const el = document.getElementById('permList');
+  if (!el) return;
+  el.innerHTML = (data || []).map((p) => `<div class="low-item">🔐 <strong>${p.role}</strong> — ${p.module}:${p.action}</div>`).join('');
+}
+
+async function loadAuditLogs() {
+  const { data } = await supabase.from('audit_logs').select('*').order('created_at', { ascending: false }).limit(20);
+  const el = document.getElementById('auditList');
+  if (!el) return;
+  el.innerHTML = (data || []).map((l) => `<div class="low-item">🧾 <strong>${l.action}</strong> — ${l.entity} — ${l.created_at ? new Date(l.created_at).toLocaleString('id-ID') : ''}</div>`).join('');
+}
+
 let lastOrders = [];
 
 async function loadReportsAdmin() {
@@ -541,14 +573,14 @@ async function loadCategoriesAdmin() {
 
 async function loadBannersAdmin() {
   const { data } = await supabase.from('banners').select('*').order('created_at', { ascending: false });
-  const el = document.getElementById('adminBanners');
+  const el = document.getElementById('adminBannersList');
   if (!el) return;
   el.innerHTML = (data || []).map((b) => `<div class="low-item">📢 <strong>${b.title}</strong> — ${b.subtitle || ''}</div>`).join('');
 }
 
 async function loadPromotionsAdmin() {
   const { data } = await supabase.from('promotions').select('*').order('created_at', { ascending: false });
-  const el = document.getElementById('adminPromotions');
+  const el = document.getElementById('adminPromotionsList');
   if (!el) return;
   el.innerHTML = (data || []).map((p) => `
     <div class="low-item" style="display:flex;justify-content:space-between;align-items:center;gap:10px">
@@ -654,7 +686,17 @@ async function init() {
   const promosList = document.getElementById('adminPromotionsList');
   if (promosList) promosList.addEventListener('click', async (e) => { const p = e.target.closest('[data-promo]'); if (!p) return; const { error } = await supabase.from('promotions').update({ is_active: !p.dataset.active }).eq('id', p.dataset.promo); if (error) alert('Gagal: ' + error.message); await loadPromotionsAdmin(); });
   const settingsForm = document.getElementById('settingsForm');
-  if (settingsForm) settingsForm.addEventListener('submit', async (e) => { e.preventDefault(); const { error } = await supabase.from('store_settings').update({ store_name: $('#setStoreName').value, whatsapp_number: $('#setWhatsappNumber').value, address: $('#setAddress').value, phone: $('#setPhone').value, email: $('#setEmail').value, hours: $('#setHours').value }); if (error) alert('Gagal menyimpan pengaturan: ' + error.message); });
+  if (settingsForm) settingsForm.addEventListener('submit', async (e) => { e.preventDefault(); const { data: sList } = await supabase.from('store_settings').select('id'); const settingsId = sList?.[0]?.id; const { error } = await supabase.from('store_settings').update({ store_name: $('#setStoreName').value, whatsapp_number: $('#setWhatsappNumber').value, address: $('#setAddress').value, phone: $('#setPhone').value, email: $('#setEmail').value, hours: $('#setHours').value }).eq('id', settingsId); if (error) alert('Gagal menyimpan pengaturan: ' + error.message); });
+  const adminUserForm = document.getElementById('adminUserForm');
+  if (adminUserForm) adminUserForm.addEventListener('submit', async (e) => { e.preventDefault(); const payload = { admin_id: $('#auAdminId').value, role: $('#auRole').value, is_active: $('#auActive')?.checked ?? true }; const { error } = await supabase.from('admin_roles').insert(payload); if (error) { alert('Gagal menyimpan admin: ' + error.message); return; } adminUserForm.reset(); await loadAdminUsersAdmin(); });
+  const permForm = document.getElementById('permForm');
+  if (permForm) permForm.addEventListener('submit', async (e) => { e.preventDefault(); const { error } = await supabase.from('role_permissions').insert({ role: $('#permRole').value, module: $('#permModule').value, action: $('#permAction').value }); if (error) { alert('Gagal menyimpan permission: ' + error.message); return; } $('#permModule').value = ''; $('#permAction').value = ''; await loadPermsAdmin(); });
+  document.addEventListener('click', async (e) => {
+    const auToggle = e.target.closest('[data-au-toggle]');
+    const auDel = e.target.closest('[data-au-del]');
+    if (auToggle) { const { error } = await supabase.from('admin_roles').update({ is_active: auToggle.dataset.auStatus === 'inactive' }).eq('id', auToggle.dataset.auToggle); if (error) alert('Update admin gagal: ' + error.message); await loadAdminUsersAdmin(); return; }
+    if (auDel) { if (confirm('Hapus admin ini?')) { const { error } = await supabase.from('admin_roles').delete().eq('id', auDel.dataset.auDel); if (error) alert('Gagal menghapus admin: ' + error.message); await loadAdminUsersAdmin(); } return; }
+  });
 
   await switchPage(currentAdminPage());
 }

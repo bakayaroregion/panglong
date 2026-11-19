@@ -109,6 +109,12 @@ a { color: inherit; text-decoration: none; }
 .testimonial p { font-size: 15px; margin-bottom: 16px; }
 .testimonial footer { color: var(--muted); font-size: 13px; }
 
+/* ---------- FAQ ---------- */
+.faq-item { background: #fff; border: 1px solid var(--border); border-radius: var(--radius); padding: 22px; }
+.faq-item h4 { font-size: 16px; margin-bottom: 6px; }
+.faq-item p { color: var(--muted); font-size: 14px; }
+.faq-item small { color: var(--accent); font-weight: 600; }
+
 /* ---------- Footer ---------- */
 .site-footer { background: var(--dark); color: #c7cdd8; padding: 50px 0 0; }
 .footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 40px; padding-bottom: 40px; }

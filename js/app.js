@@ -1,5 +1,5 @@
 // PANG LONG STORE — App Bootstrap & Homepage/Cart Wiring
-import { fetchProducts, fetchCategories } from './supabase.js';
+import { fetchProducts, fetchCategories, fetchBanners, supabase } from './supabase.js';
 import { addToCart, getCart, getCartDetailed, getCartCount, setQty, removeFromCart, clearCart } from './cart.js';
 import { openWhatsAppCheckout } from './checkout.js';
 import { STORE } from '../config.js';
@@ -92,8 +92,60 @@ async function renderProducts(targetId, products, limit) {
 
 function scrollToProducts() { document.getElementById('produk')?.scrollIntoView({ behavior: 'smooth' }); }
 
+async function renderAnnouncement() {
+  const el = document.querySelector('.announcement .announcement-in p');
+  if (!el) return;
+  const { data } = await supabase.from('store_settings').select('announcement').limit(1);
+  el.innerHTML = data?.[0]?.announcement ? `🚚 ${data[0].announcement}` : '🚚 FREE ONGKIR AREA JAKARTA • Promo Semen & Cat Minggu Ini!';
+}
+
+async function renderHero() {
+  const kicker = document.querySelector('.hero-kicker');
+  const h1 = document.querySelector('.hero h1');
+  const p = document.querySelector('.hero p');
+  const img = document.querySelector('.hero-media img');
+  const banners = await fetchBanners();
+  const b = (banners || []).find((x) => x.is_active) || (banners || [])[0];
+  if (!b) return;
+  if (kicker) kicker.textContent = b.subtitle || 'MATERIAL BANGUNAN PROFESIONAL';
+  if (h1) h1.innerHTML = b.title || 'Bangun dengan Material<br>yang Terpercaya.';
+  if (p) p.innerHTML = b.subtitle || 'Semen, batu, besi, cat, pipa, dan tools berkualitas tinggi untuk proyek rumah & gedung Anda.';
+  if (img) img.src = b.image_url || img.src;
+}
+
+async function renderTestimonials() {
+  const grid = document.querySelector('.testimonial-grid');
+  if (!grid) return;
+  const { data } = await supabase.from('testimonials').select('*').eq('is_active', true);
+  const list = data || [];
+  if (!list.length) return;
+  grid.innerHTML = list.slice(0, 3).map((t) => `
+    <div class="testimonial">
+      <p>"${t.content}"</p>
+      <footer>— ${t.customer_name}${t.product_ref ? ` (${t.product_ref})` : ''}</footer>
+    </div>`).join('');
+}
+
+async function renderFaq() {
+  const el = document.getElementById('faqList');
+  if (!el) return;
+  const { data } = await supabase.from('faqs').select('*').eq('is_active', true);
+  const list = data || [];
+  if (!list.length) { el.innerHTML = '<div class="empty">Belum ada pertanyaan.</div>'; return; }
+  el.innerHTML = list.map((f, i) => `
+    <div class="faq-item">
+      <h4>${i + 1}. ${f.question}</h4>
+      <p>${f.answer}</p>
+      ${f.category ? `<small>Kategori: ${f.category}</small>` : ''}
+    </div>`).join('');
+}
+
 async function initHomepage() {
   updateCartBadge();
+  await renderAnnouncement();
+  await renderHero();
+  await renderTestimonials();
+  await renderFaq();
 
   const cartBtn = document.getElementById('cartBtn');
   const heroCta = document.querySelector('.hero .btn-accent');
